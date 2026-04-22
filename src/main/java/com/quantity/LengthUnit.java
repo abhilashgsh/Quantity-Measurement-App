@@ -15,4 +15,8 @@ public enum LengthUnit {
     double toBaseUnit(double value) {
         return value * baseUnitFactor;
     }
+
+    double fromBaseUnit(double baseValue) {
+        return baseValue / baseUnitFactor;
+    }
 }

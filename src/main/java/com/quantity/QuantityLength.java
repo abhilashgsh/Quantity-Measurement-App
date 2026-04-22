@@ -21,6 +21,16 @@ public final class QuantityLength {
         return unit;
     }
 
+    public static double convert(double value, LengthUnit fromUnit, LengthUnit toUnit) {
+        Objects.requireNonNull(fromUnit, "fromUnit must not be null");
+        Objects.requireNonNull(toUnit, "toUnit must not be null");
+        return toUnit.fromBaseUnit(fromUnit.toBaseUnit(value));
+    }
+
+    public QuantityLength convertTo(LengthUnit targetUnit) {
+        return new QuantityLength(convert(value, unit, targetUnit), targetUnit);
+    }
+
     private double normalizedValue() {
         return unit.toBaseUnit(value);
     }
