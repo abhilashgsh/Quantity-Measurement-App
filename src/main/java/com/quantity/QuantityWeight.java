@@ -30,4 +30,30 @@ public final class QuantityWeight {
     public QuantityWeight convertTo(WeightUnit targetUnit) {
         return new QuantityWeight(convert(value, unit, targetUnit), targetUnit);
     }
+
+    private double baseValue() {
+        return unit.convertToBaseUnit(value);
+    }
+
+    @Override
+    public boolean equals(Object other) {
+        if (this == other) {
+            return true;
+        }
+        if (!(other instanceof QuantityWeight)) {
+            return false;
+        }
+        QuantityWeight that = (QuantityWeight) other;
+        return Math.abs(baseValue() - that.baseValue()) <= EPSILON;
+    }
+
+    @Override
+    public int hashCode() {
+        return QuantityWeight.class.hashCode();
+    }
+
+    @Override
+    public String toString() {
+        return value + " " + unit;
+    }
 }
