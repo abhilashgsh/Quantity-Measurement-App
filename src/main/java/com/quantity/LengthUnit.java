@@ -20,11 +20,4 @@ public enum LengthUnit {
         return baseValue / baseUnitFactor;
     }
 
-    double toBaseUnit(double value) {
-        return value * baseUnitFactor;
-    }
-
-    double fromBaseUnit(double baseValue) {
-        return baseValue / baseUnitFactor;
-    }
 }
