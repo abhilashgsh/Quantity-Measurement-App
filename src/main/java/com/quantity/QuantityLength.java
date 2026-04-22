@@ -31,6 +31,12 @@ public final class QuantityLength {
         return new QuantityLength(convert(value, unit, targetUnit), targetUnit);
     }
 
+    public QuantityLength add(QuantityLength other) {
+        Objects.requireNonNull(other, "other must not be null");
+        double sumInBaseUnit = baseValue() + other.baseValue();
+        return new QuantityLength(unit.fromBaseUnit(sumInBaseUnit), unit);
+    }
+
     private double baseValue() {
         return unit.toBaseUnit(value);
     }
