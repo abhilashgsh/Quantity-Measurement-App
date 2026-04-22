@@ -72,4 +72,17 @@ class QuantityLengthTest {
         assertEquals(new QuantityLength(1.0, LengthUnit.FEET), new QuantityLength(12.0, LengthUnit.INCHES));
         assertNotEquals(new QuantityLength(1.0, LengthUnit.FEET), new QuantityLength(13.0, LengthUnit.INCHES));
     }
+
+    @Test
+    void givenYardsAndCentimeters_whenEquivalent_thenTheyAreEqualAcrossUnits() {
+        assertEquals(new QuantityLength(1.0, LengthUnit.YARDS), new QuantityLength(3.0, LengthUnit.FEET));
+        assertEquals(new QuantityLength(1.0, LengthUnit.INCHES), new QuantityLength(2.54, LengthUnit.CENTIMETERS));
+        assertEquals(new QuantityLength(1.0, LengthUnit.YARDS), new QuantityLength(91.44, LengthUnit.CENTIMETERS));
+    }
+
+    @Test
+    void givenYardsAndCentimeters_whenNotEquivalent_thenTheyAreNotEqual() {
+        assertNotEquals(new QuantityLength(1.0, LengthUnit.YARDS), new QuantityLength(100.0, LengthUnit.CENTIMETERS));
+        assertNotEquals(new QuantityLength(1.0, LengthUnit.FEET), new QuantityLength(1.0, LengthUnit.YARDS));
+    }
 }
