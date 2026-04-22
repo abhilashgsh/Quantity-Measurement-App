@@ -24,7 +24,7 @@ public final class QuantityLength {
     public static double convert(double value, LengthUnit fromUnit, LengthUnit toUnit) {
         Objects.requireNonNull(fromUnit, "fromUnit must not be null");
         Objects.requireNonNull(toUnit, "toUnit must not be null");
-        return toUnit.fromBaseUnit(fromUnit.toBaseUnit(value));
+        return toUnit.convertFromBaseUnit(fromUnit.convertToBaseUnit(value));
     }
 
     public QuantityLength convertTo(LengthUnit targetUnit) {
@@ -33,13 +33,13 @@ public final class QuantityLength {
 
     public QuantityLength add(QuantityLength other) {
         Objects.requireNonNull(other, "other must not be null");
-        return new QuantityLength(unit.fromBaseUnit(sumInBaseUnit(other)), unit);
+        return new QuantityLength(unit.convertFromBaseUnit(sumInBaseUnit(other)), unit);
     }
 
     public QuantityLength add(QuantityLength other, LengthUnit targetUnit) {
         Objects.requireNonNull(other, "other must not be null");
         Objects.requireNonNull(targetUnit, "targetUnit must not be null");
-        return new QuantityLength(targetUnit.fromBaseUnit(sumInBaseUnit(other)), targetUnit);
+        return new QuantityLength(targetUnit.convertFromBaseUnit(sumInBaseUnit(other)), targetUnit);
     }
 
     private double sumInBaseUnit(QuantityLength other) {
@@ -47,7 +47,7 @@ public final class QuantityLength {
     }
 
     private double baseValue() {
-        return unit.toBaseUnit(value);
+        return unit.convertToBaseUnit(value);
     }
 
     private double normalizedValue() {
