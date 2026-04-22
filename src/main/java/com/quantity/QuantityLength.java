@@ -31,8 +31,12 @@ public final class QuantityLength {
         return new QuantityLength(convert(value, unit, targetUnit), targetUnit);
     }
 
-    private double normalizedValue() {
+    private double baseValue() {
         return unit.toBaseUnit(value);
+    }
+
+    private double normalizedValue() {
+        return baseValue();
     }
 
     @Override
