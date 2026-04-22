@@ -31,6 +31,17 @@ public final class QuantityWeight {
         return new QuantityWeight(convert(value, unit, targetUnit), targetUnit);
     }
 
+    public QuantityWeight add(QuantityWeight other) {
+        return add(other, unit);
+    }
+
+    public QuantityWeight add(QuantityWeight other, WeightUnit targetUnit) {
+        Objects.requireNonNull(other, "other must not be null");
+        Objects.requireNonNull(targetUnit, "targetUnit must not be null");
+        double sumInBaseUnit = baseValue() + other.baseValue();
+        return new QuantityWeight(targetUnit.convertFromBaseUnit(sumInBaseUnit), targetUnit);
+    }
+
     private double baseValue() {
         return unit.convertToBaseUnit(value);
     }
