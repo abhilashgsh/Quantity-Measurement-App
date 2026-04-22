@@ -159,4 +159,17 @@ class QuantityLengthTest {
 
         assertThrows(NullPointerException.class, () -> oneFoot.add(new QuantityLength(1.0, LengthUnit.INCHES), null));
     }
+
+    @Test
+    void givenZeroNegativeAndLargeLengthValues_whenComparedConvertedAndAdded_thenWorks() {
+        assertEquals(new QuantityLength(0.0, LengthUnit.FEET), new QuantityLength(0.0, LengthUnit.INCHES));
+        assertEquals(new QuantityLength(-1.0, LengthUnit.FEET), new QuantityLength(-12.0, LengthUnit.INCHES));
+        assertEquals(1_200_000_000.0, QuantityLength.convert(100_000_000.0, LengthUnit.FEET, LengthUnit.INCHES), DELTA);
+
+        QuantityLength result = new QuantityLength(-1.0, LengthUnit.FEET)
+                .add(new QuantityLength(24.0, LengthUnit.INCHES));
+
+        assertEquals(1.0, result.getValue(), DELTA);
+        assertEquals(LengthUnit.FEET, result.getUnit());
+    }
 }
