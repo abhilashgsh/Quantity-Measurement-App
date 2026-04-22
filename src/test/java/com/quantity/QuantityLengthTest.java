@@ -5,9 +5,12 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class QuantityLengthTest {
+    private static final double DELTA = 0.000000001;
+
     @Test
     void givenSameFeetReference_whenCompared_thenReturnsTrue() {
         Feet feet = new Feet(1.0);
@@ -84,5 +87,29 @@ class QuantityLengthTest {
     void givenYardsAndCentimeters_whenNotEquivalent_thenTheyAreNotEqual() {
         assertNotEquals(new QuantityLength(1.0, LengthUnit.YARDS), new QuantityLength(100.0, LengthUnit.CENTIMETERS));
         assertNotEquals(new QuantityLength(1.0, LengthUnit.FEET), new QuantityLength(1.0, LengthUnit.YARDS));
+    }
+
+    @Test
+    void givenLengthValue_whenConverted_thenReturnsExpectedTargetValue() {
+        assertEquals(12.0, QuantityLength.convert(1.0, LengthUnit.FEET, LengthUnit.INCHES), DELTA);
+        assertEquals(3.0, QuantityLength.convert(1.0, LengthUnit.YARDS, LengthUnit.FEET), DELTA);
+        assertEquals(2.54, QuantityLength.convert(1.0, LengthUnit.INCHES, LengthUnit.CENTIMETERS), DELTA);
+        assertEquals(36.0, QuantityLength.convert(91.44, LengthUnit.CENTIMETERS, LengthUnit.INCHES), DELTA);
+    }
+
+    @Test
+    void givenLength_whenConvertedWithInstanceMethod_thenReturnsQuantityInTargetUnit() {
+        QuantityLength converted = new QuantityLength(1.0, LengthUnit.FEET).convertTo(LengthUnit.INCHES);
+
+        assertEquals(new QuantityLength(12.0, LengthUnit.INCHES), converted);
+        assertEquals(LengthUnit.INCHES, converted.getUnit());
+        assertEquals(12.0, converted.getValue(), DELTA);
+    }
+
+    @Test
+    void givenNullUnits_whenConverted_thenThrowsException() {
+        assertThrows(NullPointerException.class, () -> QuantityLength.convert(1.0, null, LengthUnit.FEET));
+        assertThrows(NullPointerException.class, () -> QuantityLength.convert(1.0, LengthUnit.FEET, null));
+        assertThrows(NullPointerException.class, () -> new QuantityLength(1.0, null));
     }
 }
