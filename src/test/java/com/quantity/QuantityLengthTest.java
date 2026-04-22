@@ -112,4 +112,27 @@ class QuantityLengthTest {
         assertThrows(NullPointerException.class, () -> QuantityLength.convert(1.0, LengthUnit.FEET, null));
         assertThrows(NullPointerException.class, () -> new QuantityLength(1.0, null));
     }
+
+    @Test
+    void givenSameLengthUnits_whenAdded_thenReturnsResultInFirstOperandUnit() {
+        QuantityLength result = new QuantityLength(1.0, LengthUnit.FEET)
+                .add(new QuantityLength(2.0, LengthUnit.FEET));
+
+        assertEquals(LengthUnit.FEET, result.getUnit());
+        assertEquals(3.0, result.getValue(), DELTA);
+    }
+
+    @Test
+    void givenDifferentLengthUnits_whenAdded_thenReturnsResultInFirstOperandUnit() {
+        QuantityLength result = new QuantityLength(1.0, LengthUnit.FEET)
+                .add(new QuantityLength(12.0, LengthUnit.INCHES));
+
+        assertEquals(LengthUnit.FEET, result.getUnit());
+        assertEquals(2.0, result.getValue(), DELTA);
+    }
+
+    @Test
+    void givenNullLengthOperand_whenAdded_thenThrowsException() {
+        assertThrows(NullPointerException.class, () -> new QuantityLength(1.0, LengthUnit.FEET).add(null));
+    }
 }
