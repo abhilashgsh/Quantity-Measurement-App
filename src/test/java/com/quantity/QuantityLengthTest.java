@@ -34,4 +34,20 @@ class QuantityLengthTest {
     void givenFeetWithDifferentValues_whenCompared_thenReturnsFalse() {
         assertNotEquals(new Feet(1.0), new Feet(2.0));
     }
+
+    @Test
+    void givenInches_whenComparedWithNullDifferentTypeOrSameReference_thenBehavesSafely() {
+        Inches inches = new Inches(12.0);
+
+        assertTrue(inches.equals(inches));
+        assertFalse(inches.equals(null));
+        assertFalse(inches.equals(new Feet(1.0)));
+        assertEquals(inches, new Inches(12.0));
+        assertNotEquals(inches, new Inches(13.0));
+    }
+
+    @Test
+    void givenLegacyFeetAndInches_whenNumericallyEquivalent_thenTheyAreNotEqual() {
+        assertNotEquals(new Feet(1.0), new Inches(12.0));
+    }
 }
