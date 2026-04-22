@@ -50,4 +50,26 @@ class QuantityLengthTest {
     void givenLegacyFeetAndInches_whenNumericallyEquivalent_thenTheyAreNotEqual() {
         assertNotEquals(new Feet(1.0), new Inches(12.0));
     }
+
+    @Test
+    void givenSameLengthReference_whenCompared_thenReturnsTrue() {
+        QuantityLength length = new QuantityLength(1.0, LengthUnit.FEET);
+
+        assertTrue(length.equals(length));
+    }
+
+    @Test
+    void givenLength_whenComparedWithNullOrDifferentType_thenReturnsFalse() {
+        QuantityLength length = new QuantityLength(1.0, LengthUnit.FEET);
+
+        assertFalse(length.equals(null));
+        assertFalse(length.equals("1 foot"));
+    }
+
+    @Test
+    void givenSameAndDifferentLengthUnits_whenCompared_thenUsesNormalizedEquality() {
+        assertEquals(new QuantityLength(1.0, LengthUnit.FEET), new QuantityLength(1.0, LengthUnit.FEET));
+        assertEquals(new QuantityLength(1.0, LengthUnit.FEET), new QuantityLength(12.0, LengthUnit.INCHES));
+        assertNotEquals(new QuantityLength(1.0, LengthUnit.FEET), new QuantityLength(13.0, LengthUnit.INCHES));
+    }
 }
