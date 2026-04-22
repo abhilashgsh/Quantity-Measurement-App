@@ -107,6 +107,14 @@ class QuantityLengthTest {
     }
 
     @Test
+    void givenLengthValue_whenUnitConvertsThroughBaseMethods_thenReturnsExpectedValues() {
+        assertEquals(12.0, LengthUnit.FEET.convertToBaseUnit(1.0), DELTA);
+        assertEquals(1.0, LengthUnit.FEET.convertFromBaseUnit(12.0), DELTA);
+        assertEquals(1.0, LengthUnit.INCHES.convertToBaseUnit(1.0), DELTA);
+        assertEquals(2.54, LengthUnit.CENTIMETERS.convertFromBaseUnit(1.0), DELTA);
+    }
+
+    @Test
     void givenNullUnits_whenConverted_thenThrowsException() {
         assertThrows(NullPointerException.class, () -> QuantityLength.convert(1.0, null, LengthUnit.FEET));
         assertThrows(NullPointerException.class, () -> QuantityLength.convert(1.0, LengthUnit.FEET, null));
